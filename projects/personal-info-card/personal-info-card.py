@@ -1,32 +1,66 @@
-# Personal Info Card v1
-# Day 2 — May 25, 2026
-# Built with: input, print, f-strings, string concatenation
-# 
-# TODO v2 (after learning loops + exceptions):
-# - Add input validation for age (must be positive integer)
-# - Add empty field validation
-# - Better alignment with .ljust()
+# Personal Info Card v2
+# Day 8 — May 30, 2026
+# Built with: functions, try/except, while loops, input validation
 
-name = input("What's your name? ")
-name = name.strip().title()
+def main():
+    name = get_name()
+    age = get_age()
+    occupation = get_occupation()
+    location = get_location()
+    display_info(name, age, occupation, location)
 
-age = input("What's your age? ").strip()
-age = int(age)
+def get_name():
+    while True:
+        name = input("What's your name? ")
+        name = name.strip().title()
+        if name != "":
+            break
+        else:
+            print("Name cannot be empty. Try again.")
+    return name
 
-occupation = input("What's your occupation? ")
-occupation = occupation.strip().title()
+def get_age():
+    while True:
+        try:
+            age = input("What's your age? ")
+            age = int(age)
+            if 1 <= age <= 120:
+                break
+            else:
+                print("Age must be between 1 and 120. Try again.")
+                continue
+        except ValueError:
+            print("Please enter a valid number. Try again.")
+    return age
 
-location = input("What's your location? ")
-location = location.strip()
+def get_occupation():
+    while True:
+        occupation = input("What's your occupation? ")
+        occupation = occupation.strip().title()
+        if occupation != "":
+            break
+        else:
+            print("Job cannot be empty. Try again.")
+    return occupation
+    
+def get_location():
+    while True:
+        location = input("What's your location? ")
+        location = location.strip().title()
+        if location != "":
+            break
+        else:
+            print("Location cannot be empty. Try again.")
+    return location
 
-display_name = name if name != "" else "Unknown"
-display_age = age if age > 0 else "Unknown"
-display_occupation = occupation if occupation != "" else "Unknown"
-display_location = location if location != "" else "Unknown"
+def display_info(name, age, occupation, location):
+    print("+" + "-" * 30 + "+")
+    print("PERSONAL INFO CARD".center(30))
+    print("+" + "-" * 30 + "+")
+    print(f"Name: {name}")
+    print(f"Age: {age}")
+    print(f"Occupation: {occupation}")
+    print(f"Location: {location}")
+    print("+" + "-" * 30 + "+")
 
-print("+" + "-" * 30 + "+")
-print(f"Name: {display_name}")
-print(f"Age: {display_age}")
-print(f"Occupation: {display_occupation}")
-print(f"Location: {display_location}")
-print("+" + "-" * 30 + "+")
+main()

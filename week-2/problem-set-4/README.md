@@ -1,6 +1,6 @@
 # Problem Set 4 — CS50P Week 4 (Libraries)
 
-Completed: June 2, 2026 (5/6) ⏳
+Completed: June 3, 2026 (6/6) ✅
 
 ## Problems
 
@@ -9,7 +9,7 @@ Completed: June 2, 2026 (5/6) ⏳
 - [adieu.py](adieu.py) — `inflect` library, grammatical list joining — ✅
 - [game.py](game.py) — `random.randint`, while loop with hints — ✅
 - [professor.py](professor.py) — `random`, multi-attempt validation, score tracking — ✅
-- [bitcoin.py](bitcoin.py) — `requests` library, API calls, JSON parsing — ⏳ in progress
+- [bitcoin.py](bitcoin.py) — `requests` library, API calls, JSON parsing — ✅
 
 ## Key Learnings
 

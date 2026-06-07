@@ -1,12 +1,12 @@
 # Problem Set 6 — CS50P Week 6 (File I/O)
 
-In progress: June 6, 2026 (1/4) ⏳
+In progress: June 6, 2026 (3/4) ⏳
 
 ## Problems
 
 - [lines.py](lines/lines.py) — count lines of code, skip comments and blanks, `sys.argv` — ✅
-- [pizza.py](pizza/pizza.py) — read CSV, format as table with `tabulate` — ⏳
-- [scourgify.py](scourgify/scourgify.py) — read/write CSV, `csv.DictReader`/`DictWriter` — ⏳
+- [pizza.py](pizza/pizza.py) — read CSV, format as table with `tabulate` — ✅
+- [scourgify.py](scourgify/scourgify.py) — read/write CSV, `csv.DictReader`/`DictWriter` — ✅
 - [shirt.py](shirt/shirt.py) — image manipulation with `PIL`, resize and overlay — ⏳
 
 ## Key Learnings
@@ -16,3 +16,6 @@ In progress: June 6, 2026 (1/4) ⏳
 - `sys.exit("message")` for graceful errors
 - Reading file line by line vs `.readlines()`
 - Stripping whitespace with `.strip()` before parsing
+- CSV parsing with `csv.reader` (list) vs `csv.DictReader` (dict)
+- Writing CSV with headers using `csv.DictWriter` + `writeheader()`
+- Formatting tables with `tabulate` library

@@ -15,16 +15,14 @@ elif len(sys.argv) == 3:
     elif sys.argv[1][-4:] == sys.argv[2][-4:]:
         try:
             with Image.open(sys.argv[1]) as input, Image.open("shirt.png") as shirt:
-                input = input.crop((0, 400, 1200, 1600))
-                input = input.resize((600, 600))
                 resize = ImageOps.fit(
-                    shirt,
-                    input.size,
+                    input,
+                    shirt.size,
                     method=Image.Resampling.BICUBIC,
                     bleed=0.0,
-                    centering=(0.5, 0.5)
+                    centering=(0.5,0.5),
                 )
-                input.paste(resize, (0,0), resize)
-                input.save(sys.argv[2])
+                resize.paste(shirt, (0,0), shirt)
+                resize.save(sys.argv[2])
         except FileNotFoundError:
             sys.exit("Input does not exist")

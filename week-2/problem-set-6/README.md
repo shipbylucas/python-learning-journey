@@ -1,15 +1,15 @@
-# Problem Set 6 — CS50P Week 6 (File I/O)
+# **Problem Set 6 — CS50P Week 6 (File I/O)**
 
-In progress: June 6, 2026 (3/4) ⏳
+Completed: June 9, 2026 (4/4) ✅
 
-## Problems
+## **Problems**
 
-- [lines.py](lines/lines.py) — count lines of code, skip comments and blanks, `sys.argv` — ✅
-- [pizza.py](pizza/pizza.py) — read CSV, format as table with `tabulate` — ✅
-- [scourgify.py](scourgify/scourgify.py) — read/write CSV, `csv.DictReader`/`DictWriter` — ✅
-- [shirt.py](shirt/shirt.py) — image manipulation with `PIL`, resize and overlay — ⏳
+- [lines.py](vscode-file://vscode-app/Volumes/Cursor%20Installer/Cursor.app/Contents/Resources/app/out/vs/code/electron-sandbox/workbench/lines.py) — count lines of code, skip comments and blanks, `sys.argv` — ✅
+- [pizza.py](vscode-file://vscode-app/Volumes/Cursor%20Installer/Cursor.app/Contents/Resources/app/out/vs/code/electron-sandbox/workbench/pizza.py) — read CSV, format as table with `tabulate` — ✅
+- [scourgify.py](vscode-file://vscode-app/Volumes/Cursor%20Installer/Cursor.app/Contents/Resources/app/out/vs/code/electron-sandbox/workbench/scourgify.py) — read/write CSV, `csv.DictReader`/`DictWriter` — ✅
+- [shirt.py](vscode-file://vscode-app/Volumes/Cursor%20Installer/Cursor.app/Contents/Resources/app/out/vs/code/electron-sandbox/workbench/shirt.py) — image manipulation with `PIL`, resize and overlay — ✅
 
-## Key Learnings
+## **Key Learnings**
 
 - File I/O with `open()`, `with` statement for auto-close
 - Command-line arguments via `sys.argv`
@@ -19,3 +19,7 @@ In progress: June 6, 2026 (3/4) ⏳
 - CSV parsing with `csv.reader` (list) vs `csv.DictReader` (dict)
 - Writing CSV with headers using `csv.DictWriter` + `writeheader()`
 - Formatting tables with `tabulate` library
+- Image handling with `PIL`: `Image.open()`, `.resize()`, `.paste()` for overlay
+- Matching file extensions between input and output files
+- `FileNotFoundError` / `OSError` handling for invalid image paths
+

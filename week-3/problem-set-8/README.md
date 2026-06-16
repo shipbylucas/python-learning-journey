@@ -1,12 +1,12 @@
 # **Problem Set 8 — CS50P Week 8 (Object-Oriented Programming)**
 
-In progress: June 15, 2026 (2/3) 🟡
+Completed: June 16, 2026 (3/3) ✅
 
 ## **Problems**
 
 - [seasons.py](seasons.py) — calculate age in minutes from birthdate, `date.today()`, `inflect` for number-to-words — ✅
 - [jar.py](jar.py) — Cookie Jar class, `@property`/`@setter` with validation, `deposit`/`withdraw`, `__str__` for 🍪 output — ✅
-- shirt.py — CS50 Shirt, OOP refactor — ⏳
+- [shirtificate.py](shirtificate.py) — CS50 Shirtificate, generate PDF with `fpdf2`, OOP structure and input validation — ✅
 
 ## **Key Learnings**
 

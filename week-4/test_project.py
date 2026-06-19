@@ -40,27 +40,61 @@ def test_checker():
 
 
 def test_buyAmount():
-    # valid id + valid amount
-    with patch("builtins.input", side_effect=["bitcoin", "100"]):
-        assert buyAmount() == ("bitcoin", 100.0)
-    # valid id + decimal amount
-    with patch("builtins.input", side_effect=["ethereum", "99.5"]):
-        assert buyAmount() == ("ethereum", 99.5)
+    existing_ids = ["bitcoin", "ethereum"]
+    rows = [
+        {"ID": "bitcoin", "Holdings": "0.01", "Avg Price": "60000", "Balance": "600", "Today's Price": "60000"},
+        {"ID": "ethereum", "Holdings": "0.5", "Avg Price": "2000", "Balance": "1000", "Today's Price": "2000"},
+    ]
+    # valid id not in existing → new position
+    with patch("builtins.input", side_effect=["solana", "100"]):
+        with patch("project.getPrice", return_value=100.0):
+            id, entry, holding = buyAmount(existing_ids, rows)
+            assert id == "solana"
+            assert entry == 100.0
+            assert holding == 1.0
+    # valid id in existing → DCA
+    with patch("builtins.input", side_effect=["bitcoin", "600"]):
+        with patch("project.getPrice", return_value=60000.0):
+            id, entry, holding = buyAmount(existing_ids, rows)
+            assert id == "bitcoin"
+    # invalid id → retry → valid
+    with patch("builtins.input", side_effect=["notatoken", "solana", "200"]):
+        with patch("project.getPrice", return_value=100.0):
+            id, entry, holding = buyAmount(existing_ids, rows)
+            assert id == "solana"
     # invalid amount → retry → valid
-    with patch("builtins.input", side_effect=["bitcoin", "abc", "bitcoin", "100"]):
-        assert buyAmount() == ("bitcoin", 100.0)
+    with patch("builtins.input", side_effect=["solana", "abc", "solana", "100"]):
+        with patch("project.getPrice", return_value=100.0):
+            id, entry, holding = buyAmount(existing_ids, rows)
+            assert id == "solana"
+
 
 def test_sellAmount():
-    existing_ids = ["solana", "bitcoin", "ethereum"]
+    existing_ids = ["bitcoin", "ethereum"]
+    rows = [
+        {"ID": "bitcoin", "Holdings": "0.1", "Avg Price": "60000", "Balance": "6000", "Today's Price": "60000"},
+        {"ID": "ethereum", "Holdings": "1.0", "Avg Price": "2000", "Balance": "2000", "Today's Price": "2000"},
+    ]
     # valid id + valid amount
-    with patch("builtins.input", side_effect=["solana", "50"]):
-        assert sellAmount(existing_ids) == ("solana", 50.0)
-    # valid id + decimal amount
-    with patch("builtins.input", side_effect=["bitcoin", "150.75"]):
-        assert sellAmount(existing_ids) == ("bitcoin", 150.75)
+    with patch("builtins.input", side_effect=["bitcoin", "1000"]):
+        with patch("project.getPrice", return_value=60000.0):
+            id, sLeft = sellAmount(existing_ids, rows)
+            assert id == "bitcoin"
+    # id not in existing → retry → valid
+    with patch("builtins.input", side_effect=["solana", "bitcoin", "1000"]):
+        with patch("project.getPrice", return_value=60000.0):
+            id, sLeft = sellAmount(existing_ids, rows)
+            assert id == "bitcoin"
+    # insufficient balance → retry → valid
+    with patch("builtins.input", side_effect=["bitcoin", "9999", "bitcoin", "1000"]):
+        with patch("project.getPrice", return_value=60000.0):
+            id, sLeft = sellAmount(existing_ids, rows)
+            assert id == "bitcoin"
     # invalid amount → retry → valid
-    with patch("builtins.input", side_effect=["bitcoin", "abc", "bitcoin", "300"]):
-        assert sellAmount(existing_ids) == ("bitcoin", 300.0)
+    with patch("builtins.input", side_effect=["bitcoin", "abc", "bitcoin", "1000"]):
+        with patch("project.getPrice", return_value=60000.0):
+            id, sLeft = sellAmount(existing_ids, rows)
+            assert id == "bitcoin"
 
 
 def test_getPrice():

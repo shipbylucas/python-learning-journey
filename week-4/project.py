@@ -13,7 +13,7 @@ idData = response.json()
 idList = [project["id"] for project in idData]
 
 tracker = "Crypto P&L Tracker"
-infor = ["ID", "Holdings", "Avg Price", "Today's Price"]
+infor = ["ID", "Holdings", "Avg Price", "Balance", "Today's Price"]
 
 if not os.path.exists(f"{tracker}.csv"):
     with open(f"{tracker}.csv", "w") as nFile:
@@ -46,7 +46,7 @@ def main():
 
     if rows:     
         if status == "Chilling": 
-            print(f"Gotcha! The market is tough, right?")
+            print(f"Got it. The market can be tough sometimes, right?")
         else:
             for row in rows:
                 if row["ID"] == bID or row["ID"] == sID:
@@ -60,22 +60,29 @@ def main():
                         if row["ID"] == sID:
                             row["Holdings"] = sLeft
                     row["Today's Price"] = getPrice(row["ID"])
-                    if bEntry is not None:
+                    row["Balance"] = float(row["Holdings"]) * float(row["Today's Price"])
+                    if row["ID"] == bID and bEntry is not None:
                         row["Avg Price"] = bEntry
             with open(f"{tracker}.csv", "w") as wFile:
                 writer = csv.DictWriter(wFile, fieldnames=infor)
                 writer.writeheader()
                 writer.writerows(rows)
             if bID and bID not in existing_ids:
-                with open(f"{tracker}.csv", "a") as mFile:
-                    m = csv.DictWriter(mFile, fieldnames=infor)
-                    m.writerow({"ID":bID, "Holdings":bBought, "Avg Price":bEntry, "Today's Price":getPrice(bID)})
+                new_row = {"ID":bID, "Holdings":bBought, "Avg Price":bEntry, "Balance":bBought * getPrice(bID), "Today's Price":getPrice(bID)}
+                rows.append(new_row)
+            for row in rows:
+                row["Today's Price"] = getPrice(row["ID"])
+                row["Balance"] = float(row["Holdings"]) * float(row["Today's Price"])
+            with open(f"{tracker}.csv", "w") as wFile:
+                writer = csv.DictWriter(wFile, fieldnames=infor)
+                writer.writeheader()
+                writer.writerows(rows)
     else:
         with open(f"{tracker}.csv", "a") as kFile:
             first = csv.DictWriter(kFile, fieldnames=infor)
             if bID != None:
-                first.writerow({"ID":bID, "Holdings":bBought, "Avg Price":bEntry, "Today's Price":getPrice(bID)})
-    
+                first.writerow({"ID":bID, "Holdings":bBought, "Avg Price":bEntry, "Balance":bBought * getPrice(bID), "Today's Price":getPrice(bID)})
+
     with open(f"{tracker}.csv") as file:
         reader = csv.DictReader(file)
         rows = list(reader)
@@ -96,7 +103,7 @@ def main():
 
 def checker():
     while True:
-        status = input("Do you buy, sell, or both today? \nIf you do nothing, type 'Chilling'\n").strip().capitalize()
+        status = input("Did you buy, sell, or both today? \nIf you didn't make any trades, type 'Chilling'\n").strip().capitalize()
         if status == "Buy":
             return "Buy"
         elif status == "Sell":
@@ -114,7 +121,7 @@ def buyAmount(existing_ids, rows):
         try:
             id = input("What did you buy today? ").strip().lower()
             if id in idList:
-                dollarAmount = float(input("How much did you buy in $? "))
+                dollarAmount = float(input("How much did you buy ($)? "))
                 if id not in existing_ids:
                     entry = getPrice(id)
                     holding = dollarAmount / entry
@@ -142,7 +149,7 @@ def sellAmount(existing_ids, rows):
                 continue
             else:
                 if id in idList:
-                    dollarAmount = float(input("How much did you sell in $? "))
+                    dollarAmount = float(input("How much did you sell ($)? "))
                     for row in rows: 
                         if row["ID"] == id:
                             balance = float(row["Today's Price"]) * float(row["Holdings"])

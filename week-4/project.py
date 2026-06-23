@@ -2,10 +2,13 @@ import requests
 import csv
 from tabulate import tabulate
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Get id list
 idUrl = "https://api.coingecko.com/api/v3/coins/list"
-headers = {"x-cg-demo-api-key": "CG-WUYhWseXr3Hif4WyegsL36mT"}
+headers = {"x-cg-demo-api-key": "COINGECKO_API_KEY"}
 
 response = requests.get(idUrl, headers=headers)
 idData = response.json()
@@ -169,7 +172,7 @@ def sellAmount(existing_ids, rows):
         
 def getPrice(id):
     priceUrl = "https://api.coingecko.com/api/v3/simple/price"
-    headers = {"x-cg-demo-api-key": "CG-WUYhWseXr3Hif4WyegsL36mT"}
+    headers = {"x-cg-demo-api-key": "COINGECKO_API_KEY"}
     params = {
         "ids": id,
         "vs_currencies": "usd"
